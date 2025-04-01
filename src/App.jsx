@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { closestCorners, DndContext } from '@dnd-kit/core'
 import Column from './components/Column'
+import { arrayMove } from '@dnd-kit/sortable'
 
 function App () {
   const [tasks, setTasks] = useState([
@@ -13,11 +14,30 @@ function App () {
     { id: '6', title: 'Task 6' }
   ])
 
+  const getTaskIndex = id => {
+    return tasks.findIndex(task => task.id === id)
+  }
+
+  const handleDragEnd = event => {
+    const { active, over } = event
+    if (active.id === over.id) {
+      return
+    }
+    setTasks(tasks => {
+      const originalPos = getTaskIndex(active.id)
+      const newPos = getTaskIndex(over.id)
+      return arrayMove(tasks, originalPos, newPos)
+    })
+  }
+
   return (
     <>
       <div className='p-4 text-black bg-white flex gap-8 text-5xl flex-col items-center'>
         <h1>tasks</h1>
-        <DndContext collisionDetection={closestCorners}>
+        <DndContext
+          collisionDetection={closestCorners}
+          onDragEnd={handleDragEnd}
+        >
           <Column tasks={tasks} />
         </DndContext>
       </div>
