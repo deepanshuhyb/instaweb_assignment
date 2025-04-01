@@ -1,8 +1,16 @@
 import { useState } from 'react'
 import './App.css'
-import { closestCorners, DndContext } from '@dnd-kit/core'
+import {
+  closestCorners,
+  DndContext,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  KeyboardSensor
+} from '@dnd-kit/core'
 import Column from './components/Column'
-import { arrayMove } from '@dnd-kit/sortable'
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 
 function App () {
   const [tasks, setTasks] = useState([
@@ -17,6 +25,14 @@ function App () {
   const getTaskIndex = id => {
     return tasks.findIndex(task => task.id === id)
   }
+
+  const sensors = useSensors(
+    useSensor(TouchSensor),
+    // useSensor(KeyboardSensor, {
+    //   coordinateGetter: sortableKeyboardCoordinates
+    // }),
+    useSensor(PointerSensor)
+  )
 
   const handleDragEnd = event => {
     const { active, over } = event
@@ -35,6 +51,7 @@ function App () {
       <div className='p-4 text-black bg-white flex gap-8 text-5xl flex-col items-center'>
         <h1>tasks</h1>
         <DndContext
+          sensors={sensors}
           collisionDetection={closestCorners}
           onDragEnd={handleDragEnd}
         >
