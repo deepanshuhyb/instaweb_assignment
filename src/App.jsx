@@ -28,9 +28,9 @@ function App () {
 
   const sensors = useSensors(
     useSensor(TouchSensor),
-    // useSensor(KeyboardSensor, {
-    //   coordinateGetter: sortableKeyboardCoordinates
-    // }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    }),
     useSensor(PointerSensor)
   )
 
