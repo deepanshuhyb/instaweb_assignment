@@ -48,7 +48,7 @@ function App () {
 
   return (
     <>
-      <div className='p-4 text-black bg-white flex gap-8 text-5xl flex-col items-center border-2 border-gray-200 rounded-lg'>
+      <div className='p-4 text-black bg-white flex gap-8 text-5xl flex-col items-center border-2 border-gray-200 rounded-lg shadow-lg pt-4 mt-4 w-full'>
         <h1>tasks</h1>
         <DndContext
           sensors={sensors}
