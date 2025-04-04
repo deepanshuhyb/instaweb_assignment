@@ -17,7 +17,7 @@ function Task ({ id, title }) {
       {...attributes}
       {...listeners}
       style={style}
-      className='bg-gray-200 p-4 rounded-lg shadow-md mb-2'
+      className='bg-gray-200 p-4 rounded-lg shadow-md mb-2 border border-gray-300 cursor-pointer hover:bg-gray-300'
     >
       {title}
     </div>
