@@ -42,7 +42,6 @@ function App () {
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
     })
-    // useSensor(PointerSensor)
   )
   const handleDragEnd = event => {
     const { active, over } = event
