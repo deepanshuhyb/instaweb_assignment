@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import {
   closestCorners,
@@ -13,6 +13,7 @@ import Column from './components/Column'
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 
 function App () {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [tasks, setTasks] = useState([
     { id: '1', title: 'Task 1' },
     { id: '2', title: 'Task 2' },
@@ -26,14 +27,23 @@ function App () {
     return tasks.findIndex(task => task.id === id)
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const sensors = useSensors(
-    useSensor(TouchSensor),
+    useSensor(isMobile ? TouchSensor : PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
-    }),
-    useSensor(PointerSensor)
+    })
+    // useSensor(PointerSensor)
   )
-
   const handleDragEnd = event => {
     const { active, over } = event
     if (active.id === over.id) {
